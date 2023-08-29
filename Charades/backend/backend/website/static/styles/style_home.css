@@ -1,0 +1,16 @@
+body {
+    background-color: #f0f0f0;
+}
+
+/* Ustawiam styl nagłówka witającego */
+.welcome-header {
+    text-align: center;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+/* Ustawiam styl paragrafu witającego */
+.welcome-paragraph {
+    text-align: center;
+    font-size: 24px;
+}

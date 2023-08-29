@@ -1,0 +1,37 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database_users
+      - database_data
+    networks:
+      - backend-database_users
+      - backend-database_data
+  database_users:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - database_users:/data/db
+    networks:
+      - backend-database_users
+  database_data:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - database_data:/data/db
+    networks:
+      - backend-database_data
+networks:
+  backend-database_users:
+  backend-database_data:
+volumes:
+  database_users:
+  database_data:
