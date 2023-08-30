@@ -2,15 +2,34 @@ body {
     background-color: #f0f0f0;
 }
 
-/* Ustawiam styl nagłówka witającego */
 .welcome-header {
     text-align: center;
     font-size: 48px;
     font-weight: bold;
 }
 
-/* Ustawiam styl paragrafu witającego */
 .welcome-paragraph {
     text-align: center;
     font-size: 24px;
+}
+.card {
+    margin: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 16px;
+}
+
+.btn {
+    width: 100%;
 }

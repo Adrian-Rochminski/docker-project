@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style_modes.css') }}">
+{% endblock %}
+{% block title %} games {% endblock %}
+{% block content %}
+    <div class="container">
+        <h1 class="title">Available Categories</h1>
+        <div class="tiles">
+          <div class="tile">
+            <span class="tile-text">Category 1</span>
+          </div>
+          <div class="tile">
+            <span class="tile-text">Category 2</span>
+          </div>
+          <div class="tile">
+            <span class="tile-text">Category 3</span>
+          </div>
+
+    </div>
+  </div>
+  <script src="script.js"></script>
+{% endblock %}

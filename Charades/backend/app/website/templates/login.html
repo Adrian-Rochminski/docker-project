@@ -1,36 +1,29 @@
 {% extends "base.html" %}
 {% block links %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Dołączam plik js z jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- Dołączam plik js z bootstrapem -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Dołączam własny plik css z moimi stylami -->
-    <link rel="stylesheet" href="style_login.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style_login.css') }}">
 {% endblock %}
 {% block title %} login {% endblock %}
 {% block content %}
- <!-- Tworzę kontener na środku strony -->
     <div class="container">
-        <!-- Tworzę okno z formularzem logowania -->
         <div class="login-window">
-            <!-- Tworzę nagłówek z napisem Login -->
             <h1 class="login-header">Login</h1>
-            <!-- Tworzę formularz z metodą post i akcją /login -->
             <form method="post" action="/login">
-                <!-- Tworzę pole na nazwę użytkownika -->
                 <div class="form-group">
                     <label for="username">Nazwa użytkownika</label>
                     <input type="text" class="form-control" id="username" name="username" placeholder="Wpisz nazwę użytkownika">
                 </div>
-                <!-- Tworzę pole na hasło -->
                 <div class="form-group">
                     <label for="password">Hasło</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Wpisz hasło">
                 </div>
-                <!-- Tworzę przycisk do wysłania formularza -->
                 <button type="submit" class="btn btn-primary">Zaloguj się</button>
             </form>
         </div>
     </div>
+    {% if error %}
+    <script>
+        alert("{{ error }}");
+    </script>
+    {% endif %}
+
 {% endblock %}

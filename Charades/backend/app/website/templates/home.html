@@ -1,10 +1,31 @@
 {% extends "base.html" %}
 {% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style_home.css') }}">
 {% endblock %}
 {% block title %} Home {% endblock %}
 {% block content %}
-<!-- Tworzę nagłówek z napisem witającym ludzi na stronie -->
-<h1 class="welcome-header">Witaj na mojej stronie!</h1>
-<!-- Tworzę paragraf z krótkim opisem strony -->
-<p class="welcome-paragraph">To jest moja strona, na której możesz się zalogować lub zarejestrować, aby korzystać z moich usług.</p>
+    <div class=“container”>
+        <h1 class=“welcome-header”>Witaj na mojej stronie!</h1>
+        <p class=“welcome-paragraph”>To jest moja strona, na której możesz się zalogować lub zarejestrować, aby korzystać z moich usług.</p>
+        <div class=“row”>
+            <div class=“col-md-6”>
+                <div class=“card”>
+                    <div class=“card-body”>
+                        <h3 class=“card-title”>Rozpocznij grę</h3>
+                        <p class=“card-text”>Kliknij tutaj, aby rozpocząć nową grę i sprawdzić swoje umiejętności.</p>
+                        <a onclick="window.location.href='/choose-game'" class=“btn-primary”>Zagraj</a>
+                    </div>
+                </div>
+            </div>
+            <div class=“col-md-6”>
+                <div class=“card”>
+                    <div class=“card-body”>
+                        <h3 class=“card-title”>Wyświetl historię gier</h3>
+                        <p class=“card-text”>Kliknij tutaj, aby zobaczyć swoją historię gier i wyniki.</p>
+                        <a onclick="window.location.href='/history'" class=“btn-secondary”>Zobacz</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
