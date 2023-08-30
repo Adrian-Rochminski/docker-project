@@ -1,16 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session
 from werkzeug.security import generate_password_hash, check_password_hash
-
-from . import mongo
+from website import mongo
 
 views = Blueprint('views', __name__)
 
 
 @views.route('/')
 def index():
-    if 'username' in session:
-        return render_template('home.html', logged_in=True)
-    return render_template('home.html', logged_in=False)
+    return "siemka"
+    #return render_template('home.html', logged_in=False)
 
 
 @views.route('/register', methods=['GET', 'POST'])

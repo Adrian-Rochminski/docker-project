@@ -1,8 +1,8 @@
 import pymongo
 from flask import Flask
 
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "key"
+appflask = Flask(__name__)
+appflask.config["SECRET_KEY"] = "key"
 client_users = pymongo.MongoClient("database_users", 27017)
 client_data = pymongo.MongoClient("database_data", 27017)
 users = client_users['users']
@@ -20,8 +20,6 @@ except Exception as e:
 
 
 def create_app():
-    from .views import views
-
-    app.register_blueprint(views, url_prefix='/')
-
-    return app
+    from .app.views import views
+    appflask.register_blueprint(views, url_prefix='/')
+    return appflask
