@@ -7,8 +7,9 @@ views = Blueprint('views', __name__)
 
 @views.route('/')
 def index():
-    return "siemka"
-    #return render_template('home.html', logged_in=False)
+    if 'username' in session:
+        return render_template('home.html', logged_in=True)
+    return render_template('home.html', logged_in=False)
 
 
 @views.route('/register', methods=['GET', 'POST'])

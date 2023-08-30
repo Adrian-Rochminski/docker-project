@@ -3,8 +3,8 @@ from flask import Flask
 
 appflask = Flask(__name__)
 appflask.config["SECRET_KEY"] = "key"
-client_users = pymongo.MongoClient("database_users", 27017)
-client_data = pymongo.MongoClient("database_data", 27017)
+client_users = pymongo.MongoClient("database_users", 27017,username='root', password='example')
+client_data = pymongo.MongoClient("database_data", 27017,username='root', password='example')
 users = client_users['users']
 mongo = users['users_data']
 try:
