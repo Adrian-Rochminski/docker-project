@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block links %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/style_profile.css') }}">
+{% endblock %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+    <div class="profile-card">
+        <img src="user.jpg" alt="Zdjęcie użytkownika" class="profile-image">
+        <div class="profile-info">
+            <div class="profile-name">{{ user_info['name'] }}</div>
+            <div class="profile-email">{{ user_info['email'] }}</div>
+            <div class="profile-stats">
+                <div class="profile-stat">Punkty: {{ user_stats['points'] }}</div>
+                <div class="profile-stat">Wygrane: {{ user_stats['wins'] }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

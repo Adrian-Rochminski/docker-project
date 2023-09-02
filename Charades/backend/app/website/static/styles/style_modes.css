@@ -5,3 +5,18 @@
 .tile-text { color: #ffffff; font-size: 24px; }
 
 .tile-icon { font-size: 48px; }
+
+.tile:hover {
+    transform: scale(1.1);
+    background-color: #000000;
+}
+
+.tile:hover .tile-icon {
+    color: #ffffff;
+    transform: rotate(360deg);
+}
+
+.tile:hover .tile-text {
+    color: #ffffff;
+    text-shadow: 0 0 10px #000000;
+}

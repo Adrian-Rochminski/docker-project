@@ -7,6 +7,8 @@ client_users = pymongo.MongoClient("database_users", 27017,username='root', pass
 client_data = pymongo.MongoClient("database_data", 27017,username='root', password='example')
 users = client_users['users']
 mongo = users['users_data']
+db_data = client_data['data']
+users_data = db_data['users_data']
 try:
     client_users.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")

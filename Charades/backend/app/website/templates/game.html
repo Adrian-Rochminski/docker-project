@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block links %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href= "{{ url_for('static', filename='styles/style_game.css') }}">
+{% endblock %}
+{% block title %} game {% endblock %}
+{% block content %}
+    <div class="container">
+        <h1 class="text-center">Quiz Game</h1>
+        <div id="quiz-content">
+            <div id="question" class="question"></div>
+            <div id="answers" class="form-check"></div>
+            <button id="next" class="btn btn-primary next" disabled>Next</button>
+        </div>
+    </div>
+     <script src="{{ url_for('static', filename='scripts/script_game.js') }}"></script>
+            <script>
+                var quizDataFromPython = {{ data|tojson|safe }};
+                window.onload = function () {
+                    startQuiz(quizDataFromPython);
+                };
+    </script>
+{% endblock %}

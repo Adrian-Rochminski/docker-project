@@ -1,8 +1,46 @@
 {% extends "base.html" %}
-{% block links %}
-    
-{% endblock %}
-{% block title %} history {% endblock %}
+{% block links %} 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+{% endblock %} 
+{% block title %} Historia {% endblock %} 
 {% block content %}
- 
+    <div class="container">
+        <div class="row justify-content-center"> 
+            <div class="col-md-6"> 
+                <div class="card bg-light mb-3"> 
+                    <div class="card-header">Statystyki gracza</div> 
+                    <div class="card-body"> 
+                        <p class="card-text">Nazwa: {{ user.name }}</p> 
+                        <p class="card-text">Punkty łącznie: {{ user.total_points }}</p> 
+                        <p class="card-text">Liczba gier: {{ user.games_count }}</p> 
+                    </div> 
+                </div>
+                <div class="card bg-light mb-3"> 
+                    <div class="card-header">Rozegrane gry</div> 
+                    <div class="card-body"> 
+                        <table class="table table-striped"> 
+                            <thead> 
+                            <tr>
+                                <th scope="col">#</th> 
+                                <th scope="col">Data</th> 
+                                <th scope="col">Wynik</th> 
+                            </tr> 
+                            </thead> 
+                            <tbody> 
+                            {% for game in user.games %} 
+                                <tr> 
+                                    <th scope="row">{{ loop.index }}</th> 
+                                    <td>{{ game.date }}</td> 
+                                    <td>{{ game.score }}</td> 
+                                </tr> 
+                            {% endfor %} 
+                            </tbody> 
+                        </table> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
 {% endblock %}
