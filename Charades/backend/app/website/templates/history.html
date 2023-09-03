@@ -24,16 +24,16 @@
                             <thead> 
                             <tr>
                                 <th scope="col">#</th> 
-                                <th scope="col">Data</th> 
+                                <th scope="col">Kategoria</th>
                                 <th scope="col">Wynik</th> 
                             </tr> 
                             </thead> 
                             <tbody> 
-                            {% for game in user.games %} 
+                            {% for game in games %}
                                 <tr> 
                                     <th scope="row">{{ loop.index }}</th> 
-                                    <td>{{ game.date }}</td> 
-                                    <td>{{ game.score }}</td> 
+                                    <td>{{ game.category }}</td>
+                                    <td>{{ game.points }}</td>
                                 </tr> 
                             {% endfor %} 
                             </tbody> 
@@ -42,5 +42,6 @@
                 </div> 
             </div> 
         </div> 
-    </div> 
+    </div>
+    <p>{{ games }}</p>
 {% endblock %}

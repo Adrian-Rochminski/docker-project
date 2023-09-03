@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify
+from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import mongo, users_data
 from urllib import request as urlrequ
@@ -22,10 +22,18 @@ categories = {
 @views.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST' and 'username' in session:
-        user_responses = request.form.get('userResponses')
+        user_responses = json.loads(request.form.get('userResponses'))
         if user_responses:
-            # Process the user responses here
-            pass
+            username = session['username']
+            total_points = sum([1 for response in user_responses if response['isCorrect']])
+            won = total_points / len(user_responses) >= 0.8
+            flash(user_responses)
+            users_data.db.db_data.insert_one({
+                'username': username,
+                'total_points': total_points,
+                'won': won,
+                'responses': user_responses
+            })
     if 'username' in session:
         return render_template('home.html', logged_in=True)
     return render_template('home.html', logged_in=False)
@@ -51,11 +59,7 @@ def register():
                 'email': request.form['email'],
                 'password': hashpass
             })
-            users_data.insert_one({
-                'name': request.form['username'],
-                'points': 0,
-                'wins': 0
-            })
+
             return redirect(url_for('views.home'))
         error = 'That username already exists!'
         return render_template('register.html', error=error)
@@ -93,12 +97,16 @@ def get_category_number(category_name, categories_dict):
 
 @views.route('/profile')
 def profile():
-    print("siema")
     if session['username']:
-        user_info = mongo.find_one({'name': session['username']})
-        user_stats = users_data.find_one({'name': session['username']})
-        print(user_info)
-        return render_template('profile.html', user_info=user_info, user_stats=user_stats)
+        user_info = mongo.db.users.find_one({'name': session['username']})
+        games = users_data.db.db_data.find({"username": session['username']})
+        games_count = 0
+        won = 0
+        for game in games:
+            if game['won']:
+                won += 1
+            games_count += 1
+        return render_template('profile.html', user_info=user_info, won=won, games=games_count)
     else:
         return 'Musisz się zalogować, aby zobaczyć swój profil.'
 
@@ -118,12 +126,29 @@ def game(category: str):
 
 @views.route('/history')
 def history():
-    if session['username']:
-        user = mongo.find_one({"name": session['username']})
+    if 'username' in session:
+        user = mongo.db.users.find_one({"name": session['username']})
         if user:
-            games = users_data.find({"user_id": user["_id"]})
-            return render_template('history.html', user=user, games=games)
+            games = users_data.db.db_data.find({"username": session['username']})
+            total_points = 0
+            games_count = 0
+            game_data = []
+            for game in games:
+                game_info = {
+                    'points': game['total_points'],
+                    'category': game['responses'][0]['category'],
+                    'other_fields': {
+                        'won': game['won'],
+                        'user_responses': game['responses']
+                    }
+                }
+                total_points += game['total_points']
+                games_count += 1
+                game_data.append(game_info)
+            user['total_points'] = total_points
+            user['games_count'] = games_count
+            return render_template('history.html', user=user, games=game_data)
         else:
-            return "Nie znaleziono użytkownika o podanej nazwie."
+            return redirect(url_for('views.home'))
     else:
-        return "Zaloguj się"
+        return redirect(url_for('views.login'))

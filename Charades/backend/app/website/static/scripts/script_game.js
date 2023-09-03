@@ -66,36 +66,40 @@ function selectAnswer(event) {
 
 function nextQuestion() {
     checkAnswer();
-    currentQuestion++;
-    if (currentQuestion < quizData.length) {
-        displayQuestion();
-        clearAnswers();
-        displayAnswers();
-        nextElement.disabled = true;
-    } else {
-        endQuiz();
-    }
-    console.log("nextQuestion - Current Question:", currentQuestion);
+    setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < quizData.length) {
+            displayQuestion();
+            clearAnswers();
+            displayAnswers();
+            nextElement.disabled = true;
+        } else {
+            endQuiz();
+        }
+        console.log("nextQuestion - Current Question:", currentQuestion);
+    }, 2000);
 }
 
 function checkAnswer() {
     var questionObject = quizData[currentQuestion];
     var correctAnswer = questionObject.correct_answer;
     var isCorrect = selectedAnswer === correctAnswer;
+    var category = questionObject.category;
     userResponses.push({
         question: questionObject.question,
         userAnswer: selectedAnswer,
         correctAnswer: correctAnswer,
         isCorrect: isCorrect,
+        category: category,
     });
 
     if (isCorrect) {
         score++;
-        answersElement.classList.add('animate__animated', 'animate__shakeX', 'correct');
-        setTimeout(() => { answersElement.classList.remove('animate__animated', 'animate__shakeX', 'correct'); }, 1000);
+        document.querySelector(`input[value="${selectedAnswer}"]`).parentElement.classList.add('animate__animated', 'animate__shakeX', 'correct');
+        setTimeout(() => { document.querySelector(`input[value="${selectedAnswer}"]`).parentElement.classList.remove('animate__animated', 'animate__shakeX', 'correct'); }, 1000);
     } else {
-        answersElement.classList.add('animate__animated', 'animate__shakeX', 'incorrect');
-        setTimeout(() => { answersElement.classList.remove('animate__animated', 'animate__shakeX', 'incorrect'); }, 1000);
+        document.querySelector(`input[value="${selectedAnswer}"]`).parentElement.classList.add('animate__animated', 'animate__shakeX', 'incorrect');
+        setTimeout(() => { document.querySelector(`input[value="${selectedAnswer}"]`).parentElement.classList.remove('animate__animated', 'animate__shakeX', 'incorrect'); }, 1000);
     }
     console.log("checkAnswer - Correct Answer:", correctAnswer);
     console.log("checkAnswer - Score:", score);
