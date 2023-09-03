@@ -30,18 +30,56 @@
                             </thead> 
                             <tbody> 
                             {% for game in games %}
-                                <tr> 
-                                    <th scope="row">{{ loop.index }}</th> 
+                                <tr data-toggle="modal" data-target="#gameModal{{ loop.index }}">
+                                    <th scope="row">{{ loop.index }}</th>
                                     <td>{{ game.category }}</td>
                                     <td>{{ game.points }}</td>
-                                </tr> 
-                            {% endfor %} 
-                            </tbody> 
-                        </table> 
-                    </div> 
-                </div> 
-            </div> 
-        </div> 
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <p>{{ games }}</p>
+    {% for game in games %}
+    <div class="modal fade" id="gameModal{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="gameModalLabel{{ loop.index }}" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="gameModalLabel{{ loop.index }}">Szczegóły gry</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Pytanie</th>
+                  <th scope="col">Odpowiedź użytkownika</th>
+                  <th scope="col">Właściwa odpowiedź</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for response in game.other_fields.user_responses %}
+                  <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ response.question }}</td>
+                    <td>{{ response.userAnswer }}</td>
+                    <td>{{ response.correctAnswer }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
 {% endblock %}
