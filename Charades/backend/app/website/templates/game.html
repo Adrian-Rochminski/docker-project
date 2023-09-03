@@ -2,6 +2,7 @@
 {% block links %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href= "{{ url_for('static', filename='styles/style_game.css') }}">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>
 {% endblock %}
 {% block title %} game {% endblock %}
 {% block content %}
@@ -20,4 +21,25 @@
                     startQuiz(quizDataFromPython);
                 };
     </script>
+            </button>
+  <div class="modal fade" id="popupModal" tabindex="-1" aria-labelledby="popupModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="popupModalLabel">Quiz Summary</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Total Questions: <span id="totalQuestions"></span></p>
+                    <p>Correct Answers: <span id="correctAnswers"></span></p>
+                    <p>Wrong Answers: <span id="wrongAnswers"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="returnButton" type="button" class="btn btn-primary">Return to Home Page</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

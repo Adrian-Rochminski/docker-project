@@ -19,8 +19,13 @@ categories = {
 }
 
 
-@views.route('/')
+@views.route('/', methods=['GET', 'POST'])
 def home():
+    if request.method == 'POST' and 'username' in session:
+        user_responses = request.form.get('userResponses')
+        if user_responses:
+            # Process the user responses here
+            pass
     if 'username' in session:
         return render_template('home.html', logged_in=True)
     return render_template('home.html', logged_in=False)
@@ -102,7 +107,7 @@ def profile():
 def game(category: str):
     if session['username']:
         category_number = get_category_number(category, categories)
-        url = f'https://opentdb.com/api.php?amount=10&category={category_number}&difficulty=medium&type=multiple'
+        url = f'https://opentdb.com/api.php?amount=2&category={category_number}&difficulty=medium&type=multiple'
         with urlrequ.urlopen(url) as response:
             data = response.read()
             decoded_data = data.decode('utf-8')

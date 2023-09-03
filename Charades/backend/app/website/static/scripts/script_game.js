@@ -5,8 +5,14 @@ var selectedAnswer = null;
 var questionElement = document.getElementById("question");
 var answersElement = document.getElementById("answers");
 var nextElement = document.getElementById("next");
-
+var userResponses = [];
+var quizEnded = false;
 function startQuiz(data) {
+    document.getElementById("returnButton").addEventListener("click", function() {
+        if (quizEnded) {
+            sendUserResponses();
+        }
+    });
     quizData = data.results;
     console.log("startQuiz - quizData:", quizData);
     displayQuestion();
@@ -75,7 +81,15 @@ function nextQuestion() {
 function checkAnswer() {
     var questionObject = quizData[currentQuestion];
     var correctAnswer = questionObject.correct_answer;
-    if (selectedAnswer === correctAnswer) {
+    var isCorrect = selectedAnswer === correctAnswer;
+    userResponses.push({
+        question: questionObject.question,
+        userAnswer: selectedAnswer,
+        correctAnswer: correctAnswer,
+        isCorrect: isCorrect,
+    });
+
+    if (isCorrect) {
         score++;
         answersElement.classList.add('animate__animated', 'animate__shakeX', 'correct');
         setTimeout(() => { answersElement.classList.remove('animate__animated', 'animate__shakeX', 'correct'); }, 1000);
@@ -98,6 +112,34 @@ function endQuiz() {
     questionElement.innerHTML =
         "You scored " + score + " out of " + quizData.length + ".";
     clearAnswers();
-    nextElement.style.display = "none";
-    console.log("endQuiz - Quiz Ended - Score:", score);
+    quizEnded = true;
+    displayQuizSummary();
+}
+
+function sendUserResponses() {
+    var jsonData = JSON.stringify(userResponses);
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/";
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "userResponses";
+    input.value = jsonData;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+function displayQuizSummary() {
+    var totalQuestions = quizData.length;
+    var correctAnswers = score;
+    var wrongAnswers = totalQuestions - correctAnswers;
+
+    document.getElementById("totalQuestions").textContent = totalQuestions;
+    document.getElementById("correctAnswers").textContent = correctAnswers;
+    document.getElementById("wrongAnswers").textContent = wrongAnswers;
+    var popupModal = new bootstrap.Modal(document.getElementById('popupModal'));
+    popupModal.show();
 }
