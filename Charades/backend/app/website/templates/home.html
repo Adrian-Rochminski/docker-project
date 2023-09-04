@@ -1,32 +1,58 @@
 {% extends "base.html" %}
 {% block links %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style_home.css') }}">
+     <link rel="stylesheet" href= "{{ url_for('static', filename='styles/style_home.css') }}">
 {% endblock %}
 {% block title %} Home {% endblock %}
 {% block content %}
-    <div class=“container”>
-        <h1 class=“welcome-header”>Witaj na mojej stronie!</h1>
-        <p class=“welcome-paragraph”>To jest moja strona, na której możesz się zalogować lub zarejestrować, aby korzystać z moich usług.</p>
-        <div class=“row”>
-            <div class=“col-md-6”>
-                <div class=“card”>
-                    <div class=“card-body”>
-                        <h3 class=“card-title”>Rozpocznij grę</h3>
-                        <p class=“card-text”>Kliknij tutaj, aby rozpocząć nową grę i sprawdzić swoje umiejętności.</p>
-                        <a onclick="window.location.href='/choose-game'" class=“btn-primary”>Zagraj</a>
-                    </div>
-                </div>
-            </div>
-            <div class=“col-md-6”>
-                <div class=“card”>
-                    <div class=“card-body”>
-                        <h3 class=“card-title”>Wyświetl historię gier</h3>
-                        <p class=“card-text”>Kliknij tutaj, aby zobaczyć swoją historię gier i wyniki.</p>
-                        <a onclick="window.location.href='/history'" class=“btn-secondary”>Zobacz</a>
-                    </div>
+<div class="container">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endwith %}
+
+<script>
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.display = 'none';
+            });
+        }, 2000);
+    });
+</script>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Welcome to my website!</h3>
+                    <p class="card-text">Welcome to our exciting online platform, where knowledge meets fun! We are thrilled to introduce you to our website, a treasure trove of quizzes covering a wide array of topics, designed to cater to every curiosity and challenge your intellect. Whether you're a trivia enthusiast, a lifelong learner, or just looking for a good time, our website has something for everyone.</p>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Start a Game</h3>
+                    <p class="card-text">Click here to start a new game and test your skills.</p>
+                    <a onclick="window.location.href='/choose-game'" class="btn btn-primary">Play</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">View Game History</h3>
+                    <p class="card-text">Click here to view your game history and results.</p>
+                    <a onclick="window.location.href='/history'" class="btn btn-secondary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

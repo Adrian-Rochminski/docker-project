@@ -1,0 +1,38 @@
+body {
+    background-color: #f0f0f0;
+}
+
+.navbar {
+    background: linear-gradient(to right, #006600, #003300); !important;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-color: #fff;
+}
+
+.navbar-brand {
+    color: #fff;
+}
+
+.content {
+    margin-top: 20px;
+}
+
+.card {
+    border: 2px solid #000;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-text {
+    font-size: 16px;
+    text-align: center;
+}
+
+.btn {
+    width: 100%;
+}

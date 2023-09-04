@@ -1,34 +1,52 @@
 {% extends "base.html" %}
-{% block links %} 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script> 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
-{% endblock %} 
-{% block title %} Historia {% endblock %} 
+{% block links %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block title %} History {% endblock %}
 {% block content %}
     <div class="container">
-        <div class="row justify-content-center"> 
-            <div class="col-md-6"> 
-                <div class="card bg-light mb-3"> 
-                    <div class="card-header">Statystyki gracza</div> 
-                    <div class="card-body"> 
-                        <p class="card-text">Nazwa: {{ user.name }}</p> 
-                        <p class="card-text">Punkty łącznie: {{ user.total_points }}</p> 
-                        <p class="card-text">Liczba gier: {{ user.games_count }}</p> 
-                    </div> 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    alert.style.display = 'none';
+                });
+            }, 2000);
+        });
+    </script>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card bg-light mb-3">
+                    <div class="card-header">Player Statistics</div>
+                    <div class="card-body">
+                        <p class="card-text">Name: {{ user.name }}</p>
+                        <p class="card-text">Total Points: {{ user.total_points }}</p>
+                        <p class="card-text">Number of Games: {{ user.games_count }}</p>
+                    </div>
                 </div>
-                <div class="card bg-light mb-3"> 
-                    <div class="card-header">Rozegrane gry</div> 
-                    <div class="card-body"> 
-                        <table class="table table-striped"> 
-                            <thead> 
+                <div class="card bg-light mb-3">
+                    <div class="card-header">Played Games</div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
                             <tr>
-                                <th scope="col">#</th> 
-                                <th scope="col">Kategoria</th>
-                                <th scope="col">Wynik</th> 
-                            </tr> 
-                            </thead> 
-                            <tbody> 
+                                <th scope="col">#</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             {% for game in games %}
                                 <tr data-toggle="modal" data-target="#gameModal{{ loop.index }}">
                                     <th scope="row">{{ loop.index }}</th>
@@ -48,8 +66,8 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="gameModalLabel{{ loop.index }}">Szczegóły gry</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Zamknij">
+            <h5 class="modal-title" id="gameModalLabel{{ loop.index }}">Game Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
@@ -58,9 +76,9 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Pytanie</th>
-                  <th scope="col">Odpowiedź użytkownika</th>
-                  <th scope="col">Właściwa odpowiedź</th>
+                  <th scope="col">Question</th>
+                  <th scope="col">User Answer</th>
+                  <th scope="col">Correct Answer</th>
                 </tr>
               </thead>
               <tbody>
@@ -76,7 +94,7 @@
             </table>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

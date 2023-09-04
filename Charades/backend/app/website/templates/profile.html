@@ -4,14 +4,32 @@
 {% endblock %}
 {% block title %} Profile {% endblock %}
 {% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    alert.style.display = 'none';
+                });
+            }, 2000);
+        });
+    </script>
     <div class="profile-card">
-        <img src="user.jpg" alt="Zdjęcie użytkownika" class="profile-image">
+        <img src="{{ user_image }}" alt="User Photo" class="profile-image">
         <div class="profile-info">
             <div class="profile-name">{{ user_info['name'] }}</div>
             <div class="profile-email">{{ user_info['email'] }}</div>
             <div class="profile-stats">
-                <div class="profile-stat">Gry: {{ games }}</div>
-                <div class="profile-stat">Wygrane: {{ won }}</div>
+                <div class="profile-stat">Games Played: {{ games }}</div>
+                <div class="profile-stat">Games Won: {{ won }}</div>
             </div>
         </div>
     </div>

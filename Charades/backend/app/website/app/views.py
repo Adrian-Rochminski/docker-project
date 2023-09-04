@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, request, session, jsonify, flash
+import hashlib
+from flask import Blueprint, render_template, redirect, url_for, request, session, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import mongo, users_data
 from urllib import request as urlrequ
@@ -27,7 +28,7 @@ def home():
             username = session['username']
             total_points = sum([1 for response in user_responses if response['isCorrect']])
             won = total_points / len(user_responses) >= 0.8
-            flash(user_responses)
+            flash('Answers submitted successfully!', 'success')
             users_data.db.db_data.insert_one({
                 'username': username,
                 'total_points': total_points,
@@ -44,8 +45,8 @@ def choose_game():
     if 'username' in session:
         return render_template('choose-game.html')
     else:
-        error = "Please log in first"
-        return render_template('home.html', error=error)
+        flash('Please log in first', 'danger')
+        return render_template('home.html')
 
 
 @views.route('/register', methods=['GET', 'POST'])
@@ -59,10 +60,9 @@ def register():
                 'email': request.form['email'],
                 'password': hashpass
             })
-
+            flash('Registration successful! You can now log in.', 'success')
             return redirect(url_for('views.home'))
-        error = 'That username already exists!'
-        return render_template('register.html', error=error)
+        flash('That username already exists. Please choose a different one.', 'danger')
     return render_template('register.html')
 
 
@@ -74,17 +74,20 @@ def login():
         if login_user:
             if check_password_hash(login_user['password'], request.form['password']):
                 session['username'] = request.form['username']
+                flash('Login successful!', 'success')
                 return redirect(url_for('views.home'))
             else:
                 error = 'Wrong password'
         else:
-            error = 'Wrong user name'
-    return render_template('login.html', error=error)
+            error = 'Wrong username'
+        flash(error, 'danger')
+    return render_template('login.html')
 
 
 @views.route('/logout')
 def logout():
     session.pop('username', None)
+    flash('Logged out successfully!', 'success')
     return redirect(url_for('views.home'))
 
 
@@ -97,7 +100,7 @@ def get_category_number(category_name, categories_dict):
 
 @views.route('/profile')
 def profile():
-    if session['username']:
+    if session.get('username'):
         user_info = mongo.db.users.find_one({'name': session['username']})
         games = users_data.db.db_data.find({"username": session['username']})
         games_count = 0
@@ -106,14 +109,19 @@ def profile():
             if game['won']:
                 won += 1
             games_count += 1
-        return render_template('profile.html', user_info=user_info, won=won, games=games_count)
+        email = user_info.get('email', '')
+        hash = hashlib.md5(email.encode()).hexdigest()
+        user_image_url = f"https://api.adorable.io/avatars/150/{hash}.png"
+        return render_template('profile.html', user_info=user_info, won=won, games=games_count,
+                               user_image=user_image_url)
     else:
-        return 'Musisz się zalogować, aby zobaczyć swój profil.'
+        flash('You must log in to view your profile.', 'danger')
+        return redirect(url_for('views.login'))
 
 
 @views.route('/game/<category>')
 def game(category: str):
-    if session['username']:
+    if session.get('username'):
         category_number = get_category_number(category, categories)
         url = f'https://opentdb.com/api.php?amount=2&category={category_number}&difficulty=medium&type=multiple'
         with urlrequ.urlopen(url) as response:
@@ -121,6 +129,7 @@ def game(category: str):
             decoded_data = data.decode('utf-8')
             json_data = json.loads(decoded_data)
         return render_template('game.html', data=json_data)
+    flash('Please log in to play the game.', 'danger')
     return render_template("choose-game.html")
 
 
@@ -149,6 +158,8 @@ def history():
             user['games_count'] = games_count
             return render_template('history.html', user=user, games=game_data)
         else:
+            flash('User not found.', 'danger')
             return redirect(url_for('views.home'))
     else:
+        flash('Please log in to view your game history.', 'danger')
         return redirect(url_for('views.login'))

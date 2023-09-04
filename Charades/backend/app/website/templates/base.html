@@ -6,14 +6,55 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    {% block links %}{% endblock %}
+    {% block links %}
+    {% endblock %}
     <title>{% block title %} Base {% endblock %}</title>
+    <style>
+        body {
+        background-color: #f0f0f0;
+        }
+
+        .navbar {
+            background: linear-gradient(to right, #006600, #003300); !important;
+        }
+
+        .navbar-dark .navbar-toggler-icon {
+            background-color: #fff;
+        }
+
+        .navbar-brand {
+            color: #fff;
+        }
+
+        .content {
+            margin-top: 20px;
+        }
+
+        .card {
+            border: 2px solid #000;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .card-text {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .btn {
+            width: 100%;
+        }
+        </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="/">
             <img src="logo.png" alt="Logo" width="30" height="30">
-            Moja strona
+            Quizster
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -25,14 +66,14 @@
                         <a class="nav-link" href="/profile">{{ session['username'] }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Wyloguj</a>
+                        <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Logowanie</a>
+                        <a class="nav-link" href="/login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/register">Rejestracja</a>
+                        <a class="nav-link" href="/register">registration</a>
                     </li>
                 {% endif %}
             </ul>
