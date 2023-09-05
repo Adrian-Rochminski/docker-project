@@ -8,13 +8,30 @@
 
 {% endblock %} 
 {% block title %} games {% endblock %}
-{% block content %} 
-    <div class="container"> 
+{% block content %}
+    <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                var alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    alert.style.display = 'none';
+                });
+            }, 2000);
+        });
+    </script>
     <h1 class="title display-3 text-center mb-4 animate__animated animate__fadeIn animate__delay-1s">Available games</h1>
-        <div class="tiles row" >
+        <div class="tiles" >
         <script src="{{ url_for('static', filename='scripts/script_choose.js') }}"></script>
         </div>
     </div>
 
 {% endblock %}
-

@@ -113,9 +113,6 @@ function clearAnswers() {
 }
 
 function endQuiz() {
-    questionElement.innerHTML =
-        "You scored " + score + " out of " + quizData.length + ".";
-    clearAnswers();
     quizEnded = true;
     displayQuizSummary();
 }

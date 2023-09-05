@@ -22,9 +22,6 @@ const categories = [{
 }, {
     name: 'Mythology',
     icon: 'fas fa-dragon'
-}, {
-    name: 'Mathematics',
-    icon: 'fas fa-calculator'
 }];
 
 function shuffle(array) {
@@ -45,19 +42,21 @@ function generateTiles() {
         '#ff00ff', '#00ffff', '#c02acb'];
     const shuffledColors = shuffle(colors);
     const shuffledCategories = shuffle(categories);
+
     shuffledCategories.forEach((category, index) => {
-        const tile = document.createElement('div');
-        tile.classList.add('tile', 'col-md-4', 'animate__animated', 'animate__fadeIn');
-        tile.style.backgroundColor = shuffledColors[index % shuffledColors.length];
-        tile.innerHTML = `
-            <span class="tile-icon"><i class="${category.icon}"></i></span>
-            <br>
-            <span class="tile-text">${category.name}</span>`;
-        tile.addEventListener('click', () => {
-            const categoryName = category.name;
-            window.location.href = `/game/${categoryName}`;
-        });
-        tilesContainer.appendChild(tile);
+            const tile = document.createElement('div');
+            tile.classList.add('tile', 'col-sm-4', 'animate__animated', 'animate__fadeIn');
+            tile.style.backgroundColor = shuffledColors[index % shuffledColors.length];
+            tile.innerHTML = `
+                <span class="tile-icon"><i class="${category.icon}"></i></span>
+                <br>
+                <span class="tile-text">${category.name}</span>`;
+            tile.addEventListener('click', () => {
+                const categoryName = category.name;
+                window.location.href = `/game/${categoryName}`;
+            });
+            tilesContainer.appendChild(tile);
+
     });
 
 }

@@ -1,5 +1,6 @@
-import hashlib
-from flask import Blueprint, render_template, redirect, url_for, request, session, flash, jsonify
+import urllib
+from random import random
+from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from website import mongo, users_data
 from urllib import request as urlrequ
@@ -109,11 +110,7 @@ def profile():
             if game['won']:
                 won += 1
             games_count += 1
-        email = user_info.get('email', '')
-        hash = hashlib.md5(email.encode()).hexdigest()
-        user_image_url = f"https://api.adorable.io/avatars/150/{hash}.png"
-        return render_template('profile.html', user_info=user_info, won=won, games=games_count,
-                               user_image=user_image_url)
+        return render_template('profile.html', user_info=user_info, won=won, games=games_count)
     else:
         flash('You must log in to view your profile.', 'danger')
         return redirect(url_for('views.login'))
